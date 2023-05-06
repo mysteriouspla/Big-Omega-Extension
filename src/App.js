@@ -1,3 +1,4 @@
+// Importing necessary libraries and components
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import OmegaMenu from "./components/OmegaMenu";
@@ -10,6 +11,7 @@ function App() {
 	 * is running in old ui mode is what we are
 	 * assuming...
 	 */
+	// Defining app constants and initializing state variables
 	const isOldVersion = document.querySelector("html").dataset.theme ? false : true;
 	const [state, setState] = useState({
 		AppConstants: {
@@ -28,7 +30,8 @@ function App() {
 		isMenuOpen: true,
 		theme: isOldVersion ? "light" : document.querySelector("html").dataset.theme
 	});
-
+	
+	// Initializing state variable with a reference to observe theme changes
 	const themeObserverRef = useRef();
 
 	useEffect(() => {
@@ -39,7 +42,11 @@ function App() {
 		// 		}
 		// 	}
 		// });
-
+	
+		// Listening to API response
+		// Observing theme changes
+		// Adding omega menu to the page if problem slug is present
+		
 		observeTheme();
 
 		if (state.problemSlug !== "") {
@@ -54,6 +61,7 @@ function App() {
 	}, [state.problemSlug]);
 
 	useEffect(() => {
+		// Handling URL change
 		handleURLChange();
 		window.onurlchange = (event) => {
 			// e.g. /problems/flip-string-to-monotone-increasing/
@@ -69,13 +77,16 @@ function App() {
 	}, []);
 
 	useEffect(() => {
+		// Adding omega menu to the page if theme is changed
 		let btns = document.querySelector(state.AppConstants.menuJsPath);
 		if (document.body && btns) {
 			handleInsertOmegaMenu(btns);
 		}
 	}, [state.theme]);
-
+	
+	// Observing theme changes
 	const observeTheme = () => {
+		// Code for observing theme changes
 		if (!themeObserverRef.current) {
 			console.log("inside theme observer");
 			themeObserverRef.current = new MutationObserver(function (mutations) {
@@ -95,8 +106,11 @@ function App() {
 			});
 		}
 	};
-
+	
+	// Handling URL change
 	const handleURLChange = () => {
+			
+		// Code for handling URL change
 		const hasNativeEvent = Object.keys(window).includes("onurlchange");
 		if (!hasNativeEvent) {
 			let oldURL = window.location.href;
@@ -121,8 +135,10 @@ function App() {
 			});
 		}
 	};
-
+	
+	// Adding omega menu to the page
 	const handleInsertOmegaMenu = (menuBtns) => {
+		// Code for adding omega menu
 		let oldMenus = document.querySelectorAll("#big-omega-menu-wrapper");
 		if (oldMenus.length > 0) {
 			Array.from(oldMenus).forEach((elem) => elem.remove());
@@ -163,7 +179,7 @@ function App() {
 	// 		})
 	// 	);
 	// };
-
+	// Rendering the app
 	return <div></div>;
 }
 
